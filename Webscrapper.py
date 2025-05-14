@@ -5,14 +5,14 @@ import time
 import csv
 import json
 
-# === SERP API CONFIG ===
+# SERP API CONFIG
 SERP_API_KEY = "2a8a0e31e6167b8a24146c0fdd449076c9f4332fcd0bcad95730d9a37e98c2ce"
 QUERY = "community garden Northern Australia" or "garden in Northern Australia" or "garden in Australia" or "Australian community garden"
 MAX_RESULTS = 10000
 
 
-# === SerpAPI functions (source 1) ===
-def get_urls_from_serpapi(query, max_results):
+# SerpAPI functions (source from google search
+def get_urls_from_serpapi(query, max_results): #get links
     params = {
         "q": query,
         "api_key": SERP_API_KEY,
@@ -24,7 +24,7 @@ def get_urls_from_serpapi(query, max_results):
     urls = [r["link"] for r in results.get("organic_results", [])]
     return urls
 
-def scrape_info_from_url(url, geolocator):
+def scrape_info_from_url(url, geolocator):#get data
     try:
         print(f"🔍 processing (serpapi): {url}")
         res = requests.get(url, timeout=10)
@@ -71,10 +71,10 @@ def fetch_serpapi_data():
     return results
 
 
-# === Web scrape from communitygarden.org.au (source 2) ===
+# Web scrape from communitygarden.org.au 
 listGarden = []
-NAupostcode = ['08', '67', '48', '46', '47']
-
+NAupostcode = ['08', '67', '48', '46', '47'] #postcode of North Australia
+#
 def addGarden(listTagGarden):
     for item in listTagGarden:
         nameGarden = item.get('data-title')
@@ -95,7 +95,7 @@ def addGarden(listTagGarden):
                 "imageUrl": imageGarden
             })
 
-def getGardensByLocation(urlServiceCategory, page):
+def getGardensByLocation(urlServiceCategory, page): 
     BASE_HEADERS = {
         "accept": "application/json, text/javascript, */*; q=0.01",
         "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -141,7 +141,7 @@ def getGardensByListLocation(listUrlServiceCategory):
         GardenSeviceCategory(item)
 
 
-# === Save to CSV (shared) ===
+#Save to CSV (shared) 
 def saveGardensToCSV(listGarden, filename="all_community_gardens.csv"):
     fieldnames = ["name", "address", "postcode", "latitude", "longitude", "imageUrl"]
     with open(filename, mode="w", newline="", encoding="utf-8") as f:
@@ -156,7 +156,7 @@ def saveGardensToCSV(listGarden, filename="all_community_gardens.csv"):
 def main():
     print("🚀 Starting data collection...")
     
-    # 1. Crawl from communitygarden.org.au
+    # All links from communitygarden.org.au
     urlServiceCategory = [
         "https://communitygarden.org.au/service-category/nt",
         "https://communitygarden.org.au/service-category/nsw/",
