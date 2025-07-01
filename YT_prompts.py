@@ -42,13 +42,13 @@ Based strictly on the definitions and rules above, analyze the following video t
 5. If the text provides general gardening advice, soil science information, or discusses plants without clearly describing a garden setting matching the specific criteria in Rule 1 or Rule 2, you MUST classify it as 'Other/Unclear', unless the exact phrase "community garden" (case insensitive) is present referring to the main subject. Do NOT infer the garden type based on general applicability of advice.
 Output Format:
 
-Return the result ONLY as a valid JSON array with the following exact keys: (Do not include the comments in the JSON output, donot include this prompt in the output, and do not include any other text or formatting. Just the JSON output.)
-{{
-  "garden_type": "...",  // MUST be: "Community Garden" if the video is talking about community garden or "Private Garden" if the video is talking about private garden
-  "summary": "..."       // Brief summary justifying the classification (1-2 sentences) and where in the video. If it's not a community garden, or private garden, give a summary of what the video is talking about
-  "address": "...", // If the Youtube metadata (title, description, hagtags) or transcript mentions the garden in a place/ location/ area/ city/ region/ suburb, we use that in Address. If no location is mentioned, address = "N/A"
-}}
-
+You are a strict JSON generator. Return only a valid JSON object and nothing else — no explanations, no comments. The structure should be:
+[{{
+  "garden_type": string,  // MUST be: "Community Garden" if the video is talking about community garden or "Private Garden" if the video is talking about private garden
+  "garden_name": string,  // If the video mentions a specific garden name, use that. If not, use "N/A". If the video is not about a community garden or private garden, use "N/A"
+  "summary": string,      // Brief summary justifying the classification (1-2 sentences) and where in the video. If it's not a community garden, or private garden, give a summary of what the video is talking about
+  "address": string,      // If the Youtube metadata (title, description, hagtags) or transcript mentions the garden in a place/ location/ area/ city/ region/ suburb, we use that in Address. If no location is mentioned, address = "N/A"
+}}]
 
 ---
 Video Text:
